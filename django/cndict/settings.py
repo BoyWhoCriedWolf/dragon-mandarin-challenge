@@ -17,6 +17,7 @@ DATA_DIR = os.path.join(BASE_DIR, 'data')
 ALLOWED_HOSTS = [
     'localhost',
     '127.0.0.1',
+    '194.87.110.41',
 ]
 
 
