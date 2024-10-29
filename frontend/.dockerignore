@@ -1,0 +1,14 @@
+.git
+.gitignore
+.DS_Store
+*.log
+*.swp
+*.swo
+*.org
+*.bz2
+*.sql
+node_modules/
+dist/
+
+
+

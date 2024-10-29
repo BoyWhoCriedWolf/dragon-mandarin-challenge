@@ -1,0 +1,22 @@
+.git
+.gitignore
+.DS_Store
+*.log
+*.swp
+*.swo
+*.org
+*.bz2
+*.sql
+*.pyc
+*.pyo
+*.pyd
+__pycache__
+*.sqlite3
+venv/
+data/unused*
+data/unihan.json
+# This bloats the image - instead, we just map it to the host filesystem
+media/
+
+
+

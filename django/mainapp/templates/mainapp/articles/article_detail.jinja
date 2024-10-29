@@ -1,0 +1,27 @@
+{% extends "mainapp/structure/basic.jinja" %}
+
+{% block body_tag %}<body class="story-detail">{% endblock %}
+{% block main %}
+
+  <div class="px-3 md:px-4 pt-1">
+
+  </div>
+
+  <div class="md:flex md:space-x-4">
+
+    {# Reader React component #}
+    <div class="flex-1">
+      <div id="reader"></div>
+    </div>
+
+  </div>
+
+
+{% endblock %}
+
+{% block page_scripts %}
+  <script id="article-pk" type="application/json">{{ object.pk|tojson }}</script>
+  <script src="{{ react_bundle_url('reader') }}"></script>
+{% endblock %}
+
+

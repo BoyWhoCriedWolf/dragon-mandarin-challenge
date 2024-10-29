@@ -1,0 +1,163 @@
+{% extends "mainapp/structure/basic.jinja" %}
+
+{% block head_extra %}
+    <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+
+  <style>
+
+      .ql-editor {
+          font-size:16px;
+          color: #3f3f46;  /* zinc-700 */
+      }
+      .ql-editor p, .ql-editor ol, .ql-editor ul, .ql-editor pre, .ql-editor blockquote,
+      .ql-editor h1, .ql-editor h2, .ql-editor h3, .ql-editor h4, .ql-editor h5, .ql-editor h6 {
+          margin-bottom:10px;
+       }
+      .ql-editor h2:not(:first-of-type) {
+          margin: 20px 0 15px;
+       }
+      .ql-container.ql-snow, .ql-toolbar.ql-snow {
+          border-color: #d4d4d8;  /* zinc-300 */
+       }
+      .ql-editor.ql-container {
+          padding:0;
+       }
+
+      /* Placeholder */
+      .ql-editor.ql-blank::before {
+          color: #a1a1aa;  /* zinc-400 */
+          font-style: normal;
+      }
+
+  </style>
+
+{% endblock %}
+
+{% block main %}
+
+  <div class="">
+
+  <div class="mt-12 mx-auto bg-red-800 text-white w-16 h-16 rounded-full flex justify-center items-center text-4xl">龍</div>
+
+    <div class="mt-6 mb-6">
+      <p class="text-2xl font-bold text-center">
+        Interactive Chinese reading app
+      </p>
+        <p class="text-center text-zinc-400 mt-4">
+            Paste any Chinese text below and click 'Read now'.
+        </p>
+    </div>
+
+
+      <form method="post" class="mt-8">
+
+          {% if form.non_field_errors() %}
+              <ul class="border border-red-800 rounded-md text-red-800 bg-red-50 p-3 my-3">
+                  {% for error in form.non_field_errors() %}
+                      <li><span class="font-bold">Error:</span> {{ error }}</li>
+                  {% endfor %}
+              </ul>
+          {% endif %}
+
+
+          <div class="my-3">
+
+              {% if form.body.errors %}
+                  <ul class="border border-red-800 rounded-md text-red-800 bg-red-50 p-3 my-3">
+                      {% for error in form.body.errors %}
+                          <li><span class="font-bold">Error:</span> {{ error }}</li>
+                      {% endfor %}
+                  </ul>
+              {% endif %}
+
+              <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+              {# pb-12 is a hack here because quill overflows its container #}
+              <div class="h-64 md:h-[30rem]">
+                  <div class="ql-editor" id="editor">
+                      {{ (form.body.value() or '') | safe }}
+                  </div>
+              </div>
+
+              <div class="text-sm text-center mt-1 mb-4">
+                <span class="text-zinc-500">Try:</span>
+                  <a class="hover:underline" onclick="setSample(0); return false;" href="#">News article</a> &middot;
+                  <a class="hover:underline" onclick="setSample(1); return false;" href="#">Blog post</a> &middot;
+                  <a class="hover:underline" onclick="setSample(2); return false;" href="#">Book passage</a>
+              </div>
+
+
+              <input type="hidden" id="hidden-body-content" name="{{ form.body.html_name }}" value="{{ form.body.value() or '' }}">
+
+
+            <div class="flex items-center justify-center mt-4 mb-8">
+              <button class="border border-transparent rounded-md py-3 px-12 items-center justify-center text-lg font-bold text-white bg-red-800 focus:ring-red-800 hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-800">
+                  Read now
+              </button>
+            </div>
+
+          </div>
+
+
+      </form>
+
+
+
+
+
+  </div>
+
+
+{% endblock %}
+
+{% block page_scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
+  <script>
+    var quill = new Quill('#editor', {
+      theme: 'snow',
+      placeholder: 'Paste 中文 text',
+      formats: [
+        'header',
+        'bold',
+        'italic',
+        'list',
+      ],
+      modules: {
+        toolbar: false,
+        clipboard: {
+          matchVisual: false
+        },
+        // Prevent automatically interpreting numbered headings as ol
+        // https://stackoverflow.com/a/69270979
+        keyboard: {
+          bindings: {
+            'list autofill': {
+              prefix: /^\s*()$/
+            }
+          }
+        }
+      }
+
+    });
+    quill.on('text-change', function() {
+      document.getElementById('hidden-body-content').value = quill.root.innerHTML;
+    });
+
+
+    let sampleData = [
+        "{{ samples.0|escapejs }}",
+        "{{ samples.1|escapejs }}",
+        "{{ samples.2|escapejs }}"
+    ];
+
+    function setSample(i) {
+        quill.root.innerHTML = sampleData[i];
+    }
+
+
+  </script>
+
+
+
+{% endblock %}

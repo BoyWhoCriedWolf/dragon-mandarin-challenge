@@ -1,0 +1,122 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  html {
+
+  }
+
+}
+
+
+a.hoverable:hover {
+    @apply underline underline-offset-2 text-red-700;
+}
+
+body.text-page {
+    @apply text-zinc-800;
+}
+
+body.text-page h1 {
+    @apply mb-3 text-3xl font-bold leading-9;
+}
+
+body.text-page h2 {
+    @apply text-lg font-bold leading-9 mt-5;
+}
+
+body.text-page h3 {
+    @apply font-bold leading-9 mt-2;
+}
+
+body.text-page p,
+body.text-page table
+{
+    @apply mt-2;
+}
+
+
+/* For Alpine */
+[x-cloak] { display: none !important; }
+
+/* Top nav search bar (can't easily be done in tailwind since it's the same react component as homepage) */
+
+#top-nav-search .search-input {
+    @apply bg-zinc-900 text-white text-opacity-90 border border-b-zinc-700 border-r-zinc-700 border-t-black border-l-black p-3;
+}
+#top-nav-search .search-input::placeholder {
+    @apply text-zinc-400
+}
+#top-nav-search .search-results {
+    @apply bg-white;
+}
+
+/* Styles for react reader and editor components, cbf converting to tailwind */
+.tone-1 {
+  color: #fa0000;
+}
+
+.tone-2 {
+  color: #07b827;
+}
+
+.tone-3 {
+  color: #4403e3;
+}
+
+.tone-4 {
+  color: #8d09ac;
+}
+
+.tone-5 {
+  color: #6d6d6d;
+}
+
+
+
+
+/* Basic styling for reader content (since we're allowing arbitrary HTML now, we need to do this manually) */
+.reader-body {
+    font-size: 22px;
+    padding-bottom: 20px;
+}
+.reader-body p {
+    margin-top: 15px;
+}
+.reader-body h1 {
+    margin-bottom: 20px;
+    font-weight:bold;
+    font-size:150%;
+}
+.reader-body h2 {
+    margin: 20px 0 10px;
+    font-weight:bold;
+    font-size:120%;
+}
+.reader-body h2:first-child {
+    margin-top:0;
+}
+.reader-body p:first-child {
+    margin-top:0;
+}
+
+.reader-body li {
+}
+
+.reader-body ul li::before, .reader-body ol li::before {
+    content: '•';
+    font-weight: bold;
+    display: inline-block;
+    width: 1em;
+    margin-left: 1em;
+}
+
+.reader-body ol li::before {
+    counter-increment: item;
+    content: counters(item, ".") ". ";
+    display: inline-block;
+}
+
+

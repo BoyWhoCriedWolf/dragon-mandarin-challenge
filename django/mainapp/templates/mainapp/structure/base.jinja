@@ -1,0 +1,55 @@
+<!doctype html>
+{% block html_tag %}<html lang="en">{% endblock %}
+  <head>
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ static('dd/img/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ static('dd/img/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ static('dd/img/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ static('dd/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ static('dd/img/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    {% if noindex %}
+      <meta name="robots" content="noindex, nofollow">
+    {% endif %}
+
+  <script src="//unpkg.com/alpinejs" defer></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ description|default("Dragon Mandarin is a collection of resources for Chinese language learners.") }}">
+    {% if canonical_url %}
+        <link rel="canonical" href="{{ canonical_url }}">
+    {% endif %}
+
+    {% if noindex %}
+      <meta name="robots" content="noindex">
+    {% endif %}
+
+    {% if og_tags %}
+      {% for og_tag_name, contents in og_tags.items %}
+          <meta property="og:{{ og_tag_name }}" content="{{ contents }}">
+      {% endfor %}
+      {% for twitter_tag_name, contents in twitter_tags.items %}
+          <meta property="twitter:{{ twitter_tag_name }}" content="{{ contents }}">
+      {% endfor %}
+    {% endif %}
+
+
+
+    <link rel="stylesheet" href="{{ css_url() }}">
+
+    <title>{{ title|default("Dragon Mandarin") }}</title>
+
+      {% block head_extra %}{% endblock %}
+
+  </head>
+  {% block body_tag %}<body>{% endblock %}
+    {% block body %}{% endblock %}
+    {% block page_scripts %}{% endblock %}
+  </body>
+
+</html>

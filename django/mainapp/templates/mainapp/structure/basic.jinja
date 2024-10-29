@@ -1,0 +1,20 @@
+{% extends "mainapp/structure/base.jinja" %}
+
+{% block body %}
+
+  <div class="min-h-screen">
+    {% include 'mainapp/includes/top_nav.jinja' %}
+
+    <div class="{% if nopad %}{% else %}p-3 md:p-4 pt-1{% endif %} max-w-5xl mx-auto">
+      {% if messages %}{{ msgs(messages) }}{% endif %}
+      {% block main %}{% endblock %}
+    </div>
+  </div>
+
+  {# Footer #}
+  {% include 'mainapp/includes/footer.jinja' %}
+
+
+{% endblock %}
+
+

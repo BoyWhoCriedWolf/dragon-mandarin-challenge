@@ -1,0 +1,90 @@
+<footer class="bg-zinc-800 px-6 py-8 md:py-16" aria-labelledby="footer-heading">
+<div class="max-w-5xl mx-auto">
+
+  <h2 id="footer-heading" class="sr-only">Footer</h2>
+
+
+  <div class="md:flex md:space-x-16 md:w-full">
+
+    {# Subscribe section #}
+    <div class="">
+      <h3 class="text-sm font-semibold text-zinc-400 tracking-wider uppercase">Subscribe</h3>
+      <p class="mt-4 text-base text-zinc-300">Subscribe for occasional updates about Dragon Mandarin.</p>
+      <form class="mt-4 sm:flex sm:max-w-md" action="#" method="post">
+        <label for="email-address" class="sr-only">Email address</label>
+        <input type="email" name="email" id="email-address" autocomplete="email" required
+               class="appearance-none min-w-0 w-full bg-white border border-transparent rounded-md py-2 px-4 text-base text-zinc-900 placeholder-zinc-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-800 focus:ring-white focus:border-white focus:placeholder-zinc-400"
+               placeholder="Email address">
+        <div class="mt-3 rounded-md sm:mt-0 sm:ml-3 sm:flex-shrink-0">
+          <button type="submit"
+                  class="w-full border border-transparent rounded-md py-2 px-4 flex items-center justify-center text-base font-medium text-white bg-red-800 focus:ring-red-800 hover:bg-red-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-zinc-800 ">
+            Subscribe
+          </button>
+        </div>
+      </form>
+    </div>
+
+    {# Menu #}
+    <div class="md:flex mt-12 md:mt-0 md:space-x-8 md:flex-1">
+
+      {# Lists #}
+      <div class="flex space-x-4 md:w-2/3">
+        <div class="w-1/2">
+          <h3 class="text-sm font-semibold text-zinc-400 tracking-wider uppercase">Word lists</h3>
+          <ul role="list" class="mt-4 space-y-4">
+            {% for i in range(1, 7) %}
+              <li>
+                <a href="#" class="text-base text-zinc-300 hover:text-white">HSK {{ i }} word
+                  list</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <div class="w-1/2">
+          <h3 class="text-sm font-semibold text-zinc-400 tracking-wider uppercase">Character lists</h3>
+          <ul role="list" class="mt-4 space-y-4">
+
+            {% for i in range(1, 7) %}
+              <li>
+                <a href="#" class="text-base text-zinc-300 hover:text-white">HSK {{ i }}
+                  character list</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+      {# Reading/company #}
+      <div class="flex md:block mt-12 md:mt-0 space-x-4 md:space-x-0 md:w-1/3">
+
+        <div class="w-1/2 sm:w-full sm:mt-12 md:mt-0">
+          <h3 class="text-sm font-semibold text-zinc-400 tracking-wider uppercase">About</h3>
+          <ul role="list" class="mt-4 space-y-4">
+            <li>
+              <a href="#" class="text-base text-zinc-300 hover:text-white">About & Contact</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  {# Bottom line #}
+  <div class="mt-8 border-t border-zinc-700 pt-8 md:flex md:items-center md:justify-between">
+    <div class="flex space-x-6 md:order-2">
+      <a href="https://twitter.com/dragonzhongwen" class="text-zinc-400 hover:text-zinc-300">
+        <span class="sr-only">Twitter</span>
+        <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>
+        </svg>
+      </a>
+    </div>
+    <p class="mt-8 text-base text-zinc-400 md:mt-0 md:order-1">&copy; 2024 Dragon Mandarin. All rights
+      reserved. This is a test app for internal use only, all public distribution is prohibited.</p>
+  </div>
+
+</div>
+</footer>

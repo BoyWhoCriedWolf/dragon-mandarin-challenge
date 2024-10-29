@@ -1,0 +1,92 @@
+
+{% macro nav_item(label) %}
+  <li class="text-white">{{ label }}</li>
+{% endmacro %}
+
+<div class="bg-zinc-800">
+<nav x-data="{ mobileOpen: false, desktopMenu: null }" class="max-w-5xl mx-auto">
+
+  <div class="px-3">
+    <div class="relative md:flex items-center justify-between md:space-x-2">
+
+      <div class="flex h-16">
+
+        {# Logo and brand #}
+        <div class="flex flex-1 items-center md:items-stretch md:justify-start md:w-[250px]">
+          <div class="flex-shrink-0 flex items-center">
+            <a class="block h-8 w-auto flex flex-shrink-0 items-center" href="{{ url('index') }}">
+              <span class="bg-red-800 text-white w-9 h-9 rounded-full flex justify-center items-center text-xl">龍</span>
+              <span class="w-auto text-white align-middle pl-2 text-xl font-semibold">Dragon Mandarin</span>
+            </a>
+          </div>
+        </div>
+
+        {# Menu button (mobile only) #}
+        <div class="flex items-center md:hidden">
+          <button @click.prevent="mobileOpen = !mobileOpen" type="button"
+                  class="inline-flex items-center justify-center p-2 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  aria-controls="mobile-menu" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg x-show="!mobileOpen" class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+            </svg>
+            <svg x-show="mobileOpen" x-cloak class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+      </div>
+
+
+      {# Nav items (desktop only) #}
+      <div class="hidden md:block">
+
+
+        <button @click.prevent="desktopMenu = (desktopMenu === 'hsk' ? null : 'hsk')" type="button"
+                class="text-zinc-300 hover:text-zinc-400 group rounded-md inline-flex items-center text-base font-medium p-3 border border-transparent" aria-expanded="false"
+                :class="{'border-zinc-400': desktopMenu === 'hsk'}"
+        >
+          <span>HSK</span>
+          <!-- Heroicon name: solid/chevron-down -->
+          <svg class="text-zinc-300 ml-2 h-5 w-5 group-hover:text-zinc-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+          </svg>
+        </button>
+
+        <a href="#"
+            class="text-zinc-300 hover:text-zinc-400 group rounded-md inline-flex items-center text-base font-medium p-3 border border-transparent"
+        >
+          <span>Reader</span>
+        </a>
+
+
+
+      </div>
+
+
+
+    </div>
+
+  </div>
+
+  {# Mobile menu #}
+  <div x-show="mobileOpen" x-cloak class="md:hidden" id="mobile-menu">
+    <div class="px-2 pt-0 pb-3 space-y-1">
+      <div class="px-1">
+        <span href="#" class="text-zinc-500 tracking-wider text-sm block py-2 rounded-md font-medium uppercase">Tools</span>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  {# Desktop menus #}
+  <div class="hidden md:block"></div>
+
+</nav>
+</div>
+

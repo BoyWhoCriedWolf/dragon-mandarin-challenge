@@ -1,0 +1,112 @@
+{% extends "mainapp/structure/basic.jinja" %}
+
+{% block body_tag %}<body class="text-page">{% endblock %}
+{% block main %}
+
+  <div class="text-center flex flex-col items-center mt-20">
+
+
+    <h1>Loading article</h1>
+  {% if object.url and not object.body %}
+    <p class="text-zinc-400 md:text-lg">{{ object.url }}</p>
+  {% endif %}
+    <div class="" id="wait-message">
+      <div class="my-6 text-red-800 flex flex-col items-center">
+        <svg width="48" height="48" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <style>
+                .spinner_hzlK {
+                    animation: spinner_vc4H .8s linear infinite;
+                    animation-delay: -.8s;
+                    fill: currentColor;
+                }
+                .spinner_koGT {
+                    animation-delay: -.65s;
+                    fill: currentColor;
+                }
+                .spinner_YF1u {
+                    animation-delay: -.5s;
+                    fill: currentColor;
+                }
+                @keyframes spinner_vc4H {
+                    0% {
+                        y: 1px;
+                        height: 22px;
+                    }
+                    93.75% {
+                        y: 5px;
+                        height: 14px;
+                        opacity: .2;
+                    }
+                }
+            </style>
+            <rect class="spinner_hzlK" x="1" y="1" width="6" height="22"/>
+            <rect class="spinner_hzlK spinner_koGT" x="9" y="1" width="6" height="22"/>
+            <rect class="spinner_hzlK spinner_YF1u" x="17" y="1" width="6" height="22"/>
+        </svg>
+
+      </div>
+    {% if object.url and not object.body %}
+      <p>Please wait a few moments while we download and process this article.</p>
+    {% else %}
+      <p>Please wait a few moments while we load this article.</p>
+    {% endif %}
+    </div>
+
+    <div id="error-message" class="hidden border border-red-800 bg-red-50 text-red-800 rounded-md p-4 my-8 md:max-w-[600px] md:mx-auto">
+      {% if object.url and not object.body %}
+        <span class="font-bold">Error:</span> Sorry, something went wrong and we can't read this website.
+        Try copying the text from the article in manually. <a href="{{ url('index') }}" class="underline">Go back</a>
+      {% else %}
+        <span class="font-bold">Error:</span> Sorry, something went wrong and we can't load this article.
+        If the problem persists, please <a class="underline" href="mailto:andrew@dragondictionary.com">email us</a>. <a href="{{ url('index') }}" class="underline">Go back</a>
+      {% endif %}
+    </div>
+
+  </div>
+
+{% endblock %}
+
+{% block page_scripts %}
+
+  <script>
+
+    document.addEventListener('DOMContentLoaded', function() {
+
+      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsURL = `${protocol}//${window.location.host}/ws/loading/{{ object.pk }}`;
+
+      const socket = new WebSocket(wsURL);
+
+      socket.addEventListener('message', function(event) {
+        try {
+          const data = JSON.parse(event.data);
+
+          if (data.type === 'success') {
+            window.location.replace('{{ object.get_absolute_url() }}');
+
+
+          } else if (data.type === 'error') {
+            document.getElementById('error-message').style.display = 'block';
+          }
+
+          document.getElementById('wait-message').style.display = 'none';
+
+        } catch (e) {
+          console.error('Error parsing message:', e);
+        }
+
+      });
+
+      socket.addEventListener('error', function(event) {
+        console.error('WebSocket error:', event);
+      });
+
+    });
+
+  </script>
+
+
+
+{% endblock %}
+
+

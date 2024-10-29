@@ -1,0 +1,70 @@
+services:
+
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: $DB_NAME
+      POSTGRES_USER: $DB_USER
+      POSTGRES_PASSWORD: $DB_PASS
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+      - ./test_db:/test_db
+
+  redis:
+    build:
+      context: ./redis
+      args:
+        REDIS_PASSWORD: $REDIS_PASSWORD
+
+  django:
+    build:
+      context: ./django
+      dockerfile: dev.Dockerfile
+    depends_on:
+      - postgres
+      - redis
+      - frontend
+    environment:
+      DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      DB_HOST: postgres
+      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      DB_PASS: $DB_PASS
+      REDIS_PASSWORD: $REDIS_PASSWORD
+      OPENAI_API_KEY: $OPENAI_API_KEY
+    volumes:
+      - ./django:/app
+    ports:
+      - "8000:8000"
+
+  celery_worker:
+    build:
+      context: ./django
+      dockerfile: dev.celery.Dockerfile
+    depends_on:
+      - postgres
+      - redis
+    environment:
+      DJANGO_SECRET_KEY: $DJANGO_SECRET_KEY
+      DB_HOST: postgres
+      DB_NAME: $DB_NAME
+      DB_USER: $DB_USER
+      DB_PASS: $DB_PASS
+      REDIS_PASSWORD: $REDIS_PASSWORD
+      OPENAI_API_KEY: $OPENAI_API_KEY
+    volumes:
+      - ./django:/app
+  
+  frontend:
+      build:
+        context: ./frontend
+        dockerfile: dev.Dockerfile
+      volumes:
+        - ./frontend/src:/app/src
+        - ./frontend/dist:/app/dist
+        - ./django:/django  # This is required so tailwind can get the class names
+      ports:
+        - "8080:8080"
+
+
+
