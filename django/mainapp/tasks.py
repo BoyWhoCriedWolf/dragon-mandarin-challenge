@@ -1,9 +1,12 @@
 import traceback
+import requests
 
 from asgiref.sync import async_to_sync
 from celery import shared_task
 from channels.layers import get_channel_layer
 from django.db import transaction
+
+from cndict.settings import OPENAI_API_KEY
 
 from mainapp import gpt
 from mainapp.gpt import GPTError
@@ -13,6 +16,28 @@ from mainapp.reading import inflate
 from mainapp.reading.utils import strip_tags
 
 
+
+@shared_task
+def generate_audio(article_pk):
+    article = Article.objects.get(pk=article_pk)
+    audio_url = gpt.request_tts(article.plaintext)
+
+    try:
+        article.url = audio_url
+        article.save()
+
+        # Notify frontend about the new audio
+        channel_layer = get_channel_layer()
+        async_to_sync(channel_layer.group_send)(
+            article.channel_name,
+            {
+                'type': 'audio_update',
+                'audio_url': audio_url,
+            }
+        )
+    except Exception as e:
+        print(f"Error generating audio: {e}")
+        
 @shared_task
 def update_article_summary(article_pk):
     article = Article.objects.get(pk=article_pk)
@@ -111,6 +136,9 @@ def process_article(article_pk):
         update_phrase_annotations.delay_on_commit(article.pk)
 
         update_atomic(article, 'is_ready_to_view', True)
+
+        # Call the new TTS task
+        generate_audio.delay_on_commit(article.pk)
 
     except Exception:
         send_error()

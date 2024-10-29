@@ -97,6 +97,13 @@ class ArticleProgressConsumer(AsyncWebsocketConsumer):
             'data': message
         }))
 
+    async def audio_update(self, event):
+        audio_url = event['audio_url']
+        await self.send(text_data=json.dumps({
+            'type': 'url',
+            'data': audio_url
+        }))
+
     async def inflated_update(self, event):
         message = event['message']
         await self.send(text_data=json.dumps({

@@ -14,6 +14,13 @@
       <div id="reader"></div>
     </div>
 
+    <div id="audio-player-container" style="display: none;">
+      <audio id="audio-player" controls>
+          <source id="audio-source" src="" type="audio/mpeg">
+          Your browser does not support the audio element.
+      </audio>
+    </div>
+
   </div>
 
 
@@ -22,6 +29,20 @@
 {% block page_scripts %}
   <script id="article-pk" type="application/json">{{ object.pk|tojson }}</script>
   <script src="{{ react_bundle_url('reader') }}"></script>
+
+  <script>
+    // WebSocket connection and handling
+    // const socket = new WebSocket('ws://your-websocket-url');
+
+    // socket.onmessage = function(event) {
+    //     const data = JSON.parse(event.data);
+    //     if (data.type === 'audio_update') {
+    //         document.getElementById('audio-source').src = data.audio_url;
+    //         document.getElementById('audio-player-container').style.display = 'block';
+    //         document.getElementById('audio-player').load();  // Load the new audio
+    //     }
+    // };
+  </script>
 {% endblock %}
 
 

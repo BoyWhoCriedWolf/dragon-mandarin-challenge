@@ -129,11 +129,30 @@ def get_response(prompt, json_keys=None, model=DEFAULT_MODEL):
     ]
     return get_conversation_response(messages, json_keys, model=model)
 
+def request_tts(text):
+    """Request text-to-speech conversion from OpenAI API."""
+    prompt = f"Convert the following text to speech:\n{text}"
+    
+    for attempt in range(N_ATTEMPTS):
+        try:
+            response = openai.ChatCompletion.create(
+                model=DEFAULT_MODEL,
+                messages=[
+                    {"role": "system", "content": "You are a helpful assistant."},
+                    {"role": "user", "content": prompt}
+                ]
+            )
+            audio_url = response.choices[0].message['content']  # Adjust based on actual response structure
+            return audio_url
+        except openai.error.RateLimitError:
+            print("Rate limited - retrying...")
+            time.sleep(random.uniform(0.5, 1.5))
+            continue
+        except Exception as e:
+            print(f"Error requesting TTS: {str(e)}")
+            continue
 
-
-
-
-
+    raise GPTError("Failed to get audio after multiple attempts.")
 
 
 
